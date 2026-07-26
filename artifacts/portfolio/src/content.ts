@@ -32,14 +32,14 @@ export const content = {
     eyebrow: "JOURNALISM PORTFOLIO · 2026",
     name: "Nahel Zaqi Alfian",
     tagline: "Third-year Journalism Student at Universitas Padjadjaran.",
-    subDescription: "I have worked across broadcast, radio, field reporting, and digital journalism. I covered stories for a campus TV station, reported on the ground in Sumedang for an advocacy piece on displaced Jatigede Dam residents, and helped build an AI-based platform that checks whether news articles comply with Indonesia's Press Code of Ethics. I am applying to Kompas because I want to learn what serious, accountable journalism looks like from the inside."
+    subDescription: "I have worked across broadcast, radio, field reporting, and digital journalism. I covered stories for a campus TV station, reported on the ground in Sumedang for an advocacy piece on displaced Jatigede Dam residents, and helped build an AI-based platform that checks whether news articles comply with Indonesia's Press Code of Ethics. I am seeking an editorial newsroom where I can learn what serious, accountable journalism looks like from the inside."
   },
   about: {
     quote: "I want to be the kind of journalist who earns trust, not just clicks.",
     paragraphs: [
       "I am a third-year Journalism student at Universitas Padjadjaran. Over the past three years, I have worked in broadcast journalism as a camera person for our campus TV station, produced a radio broadcast as an on-air announcer, reported from the field in Sumedang for an advocacy piece on residents displaced by the Jatigede Dam, edited a six-month multimedia project about Bandung's gig economy workers, and contributed to building Ethicheck, an AI-based platform designed to help journalists check whether their articles comply with Indonesia's Press Code of Ethics.",
       "Outside of reporting, I spent one year as Chairman of Himpunan Mahasiswa Jurnalistik Unpad, leading an organization of 120 members. That experience taught me more about journalism than I expected. When you are responsible for the quality of work produced by a team that size, you quickly realize that editorial standards are not just individual habits, they have to be built into the culture of the group. We finished the year with two FIKOM Awards 2025.",
-      "I am applying to Kompas because I think the best way to learn what serious journalism actually looks like is to be inside a newsroom that has been doing it for decades."
+      "I am looking for a newsroom where I can learn what serious, accountable journalism looks like from the inside, not just study it from a textbook."
     ],
     stats: [
       { value: 120, label: "Members in the organization I led" },
@@ -47,6 +47,13 @@ export const content = {
       { value: 1, label: "Long-form investigative piece published (Jatigede)" },
       { value: 6, label: "Months leading the Serabutan multimedia project as editor" }
     ] as Stat[]
+  },
+  currently: {
+    title: "CURRENTLY",
+    paragraphs: [
+      "I am currently preparing for my senior year while exploring editorial internship opportunities (PKJ) for August – October 2026.",
+      "The newsrooms that are surviving are mostly the ones that gave people a consistent reason to trust them over time. That did not happen by accident, and I want to understand how it works from the inside."
+    ]
   },
   work: {
     categories: ['All', 'Field Reporting', 'Multimedia', 'Product', 'Broadcast'] as ProjectCategory[],
@@ -180,7 +187,7 @@ export const content = {
   ] as Award[],
   contact: {
     title: "Let's Talk.",
-    subtitle: "Open for internship opportunities, story collaborations, and conversations about journalism.",
+    subtitle: "Open for editorial internship opportunities (PKJ August – October 2026), story collaborations, and conversations about journalism.",
     email: "nahelnahel238@gmail.com",
     phone: "+62 897-9022-990",
     linkedin: "https://www.linkedin.com/in/nahel-zaqi-alfian-297a11212",

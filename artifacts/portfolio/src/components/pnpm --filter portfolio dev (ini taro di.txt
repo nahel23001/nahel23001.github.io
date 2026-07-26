@@ -1,0 +1,7 @@
+pnpm --filter portfolio dev (ini taro di cmd buat preview)
+Cara Alternatif (Jika Perintah Di Atas Gagal):
+Bash
+cd artifacts/portfolio
+(Setelah folder terminalnya berpindah, baru ketik)
+Bash
+pnpm dev

@@ -12,12 +12,13 @@ export const Leadership: React.FC = () => {
       <div className="px-6 sm:px-8 lg:px-[5vw] max-w-[1280px] mx-auto relative pt-12">
         <SectionLabel folio="03 — LEADERSHIP" />
 
+        {/* 👇 KITA SESUAIKAN WARNA KONTAINER UTAMA SAAT MODE GELAP (dark:bg-slate-900/60) */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mt-8 bg-primary text-white rounded-[2rem] sm:rounded-[3rem] overflow-hidden relative shadow-2xl"
+          className="mt-8 bg-primary dark:bg-slate-900/60 text-white rounded-[2rem] sm:rounded-[3rem] overflow-hidden relative shadow-2xl border border-transparent dark:border-white/10 transition-colors duration-300"
         >
           {/* Noise Overlay */}
           <div className="dark-noise-overlay" />
@@ -52,7 +53,7 @@ export const Leadership: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.5 + i * 0.08 }}
-                    className="text-white/80 text-lg sm:text-xl leading-relaxed"
+                    className="text-white/80 dark:text-gray-200 text-lg sm:text-xl leading-relaxed"
                   >
                     {p}
                   </motion.p>

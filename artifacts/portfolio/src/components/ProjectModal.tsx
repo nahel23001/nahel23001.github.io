@@ -40,6 +40,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
     <AnimatePresence>
       {isOpen && project && (
         <>
+          {/* Latar Belakang Overlay Gelap Semitransparan */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -57,17 +58,20 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-background w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl pointer-events-auto flex flex-col relative hide-scrollbar"
+              // 👇 PERBAIKAN UTAMA: DITAMBAHKAN dark:bg-slate-950 AGAR TIDAK SILAU SAAT DIKLIK
+              className="bg-background dark:bg-slate-950 text-foreground dark:text-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl pointer-events-auto flex flex-col relative hide-scrollbar border dark:border-white/10 transition-colors duration-300"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Tombol Close Silang */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors border border-white/20 mix-blend-difference"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 dark:bg-black/30 dark:hover:bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors border border-white/20 mix-blend-difference cursor-pointer"
                 aria-label="Close"
               >
                 <X size={20} />
               </button>
 
+              {/* Area Gambar Banner Atas */}
               <div className="w-full aspect-video sm:aspect-[21/9] relative bg-primary group/banner">
                 {project.bannerImage ? (
                   project.previewLink ? (
@@ -119,31 +123,34 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 )}
               </div>
 
+              {/* Detail Konten Teks di Dalam Modal */}
               <div className="p-8 sm:p-12 md:p-16 flex flex-col gap-8">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-wrap gap-2">
-                    <span className="bg-primary/10 text-primary px-3 py-1 text-xs font-mono uppercase tracking-wider rounded-sm font-semibold">
+                    <span className="bg-primary/10 text-primary dark:text-primary-light px-3 py-1 text-xs font-mono uppercase tracking-wider rounded-sm font-semibold">
                       {project.category}
                     </span>
                     <span className="bg-secondary/10 text-secondary px-3 py-1 text-xs font-mono uppercase tracking-wider rounded-sm font-semibold">
                       {project.role}
                     </span>
                   </div>
-                  <h2 className="text-3xl md:text-5xl font-display font-bold text-primary leading-tight">
+                  <h2 className="text-3xl md:text-5xl font-display font-bold text-primary dark:text-white leading-tight transition-colors">
                     {project.title}
                   </h2>
-                  <p className="text-muted-foreground font-mono text-sm tracking-wide">
+                  <p className="text-muted-foreground dark:text-slate-400 font-mono text-sm tracking-wide transition-colors">
                     {project.tag}
                   </p>
                 </div>
 
-                <div className="w-full h-px bg-border" />
+                {/* Garis Pembatas Horisontal */}
+                <div className="w-full h-px bg-border dark:bg-white/10 transition-colors" />
 
-                <div className="prose prose-lg prose-p:leading-relaxed max-w-none text-foreground/80">
-                  <p className="text-xl font-medium text-foreground mb-6">
+                {/* Konten Utama Esai / Studi Kasus */}
+                <div className="prose prose-lg prose-p:leading-relaxed max-w-none text-foreground/80 dark:text-slate-300">
+                  <p className="text-xl font-medium text-foreground dark:text-white mb-6 transition-colors">
                     {project.shortDescription}
                   </p>
-                  <p>{project.detailDescription}</p>
+                  <p className="transition-colors">{project.detailDescription}</p>
                 </div>
               </div>
             </motion.div>

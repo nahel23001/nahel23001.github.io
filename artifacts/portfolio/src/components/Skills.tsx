@@ -25,9 +25,10 @@ export const Skills: React.FC = () => {
                 whileHover={{ 
                   y: -4,
                   borderColor: 'var(--primary)',
-                  boxShadow: '0 10px 30px -10px rgba(0,0,0,0.08)'
+                  boxShadow: '0 10px 30px -10px rgba(0,0,0,0.15)'
                 }}
-                className="bg-white p-6 rounded-xl border border-primary/10 transition-all duration-300 flex flex-col justify-between group cursor-default"
+                // 👇 ADAPTASI WARNA BACKGROUND & CONTAINER UTAMA SAAT MODE GELAP
+                className="bg-white dark:bg-slate-900/60 p-6 rounded-xl border border-primary/10 dark:border-white/10 transition-all duration-300 flex flex-col justify-between group cursor-default"
               >
                 <div>
                   {/* Container Ikon */}
@@ -85,10 +86,12 @@ export const Skills: React.FC = () => {
                   </div>
                   
                   {/* Nama Tool */}
-                  <h3 className="text-lg font-bold mb-2 text-foreground">{tool.name}</h3>
+                  <h3 className="text-lg font-bold mb-2 text-foreground dark:text-white transition-colors duration-300">
+                    {tool.name}
+                  </h3>
                   
                   {/* Deskripsi */}
-                  <p className="text-sm text-foreground/60 leading-relaxed">
+                  <p className="text-sm text-foreground/60 dark:text-slate-400 leading-relaxed transition-colors duration-300">
                     {tool.context}
                   </p>
                 </div>

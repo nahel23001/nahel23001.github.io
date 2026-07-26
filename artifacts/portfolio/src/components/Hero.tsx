@@ -1,107 +1,146 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue } from 'framer-motion';
 import { content } from '@/content';
-import { ImagePlaceholder } from './ImagePlaceholder';
 
-export const Hero: React.FC = () => {
-  const { hero } = content;
-  
-  // Split name for word-by-word animation
-  const nameWords = hero.name.split(' ');
+interface HeroProps {
+  onDownload?: () => void;
+}
 
-  const scrollToWork = (e: React.MouseEvent) => {
-    e.preventDefault();
-    document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' });
-  };
+export const Hero: React.FC<HeroProps> = ({ onDownload }) => {
+  // Koordinat mouse untuk kalkulasi rotasi 3D
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+
+  // Koordinat mouse untuk posisi kilatan cahaya (glare effect)
+  const glareX = useMotionValue(0);
+  const glareY = useMotionValue(0);
+  const glareOpacity = useMotionValue(0);
+
+  function handleMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const element = event.currentTarget;
+    const rect = element.getBoundingClientRect();
+    
+    const width = rect.width;
+    const height = rect.height;
+    
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Hitung rotasi derajat kemiringan (maksimal 15 derajat)
+    const rX = ((mouseY / height) - 0.5) * -30;
+    const rY = ((mouseX / width) - 0.5) * 30;
+
+    rotateX.set(rX);
+    rotateY.set(rY);
+
+    // Update posisi kilatan cahaya
+    glareX.set(mouseX);
+    glareY.set(mouseY);
+    glareOpacity.set(0.15); // Tingkat terang kilatan saat mouse di atas foto
+  }
+
+  function handleMouseLeave() {
+    // Kembalikan posisi foto ke tegak semula saat kursor pergi
+    rotateX.set(0);
+    rotateY.set(0);
+    glareOpacity.set(0);
+  }
 
   return (
-    <section id="top" className="relative min-h-[100dvh] pt-28 pb-16 sm:pt-32 sm:pb-20 px-6 sm:px-8 lg:px-[5vw] max-w-[1280px] mx-auto flex flex-col justify-center overflow-x-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+    <section id="hero" className="min-h-screen flex items-center pt-24 px-6 sm:px-8 lg:px-[5vw] max-w-[1280px] mx-auto relative overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
         
-        {/* Text Content */}
-        <div className="lg:col-span-7 flex flex-col gap-5 sm:gap-6 z-10 order-2 lg:order-1">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+        {/* Kolom Kiri: Teks Informasi */}
+        <div className="lg:col-span-7 z-10 flex flex-col justify-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-mono text-xs sm:text-base tracking-[0.15em] text-foreground/60 uppercase"
+            transition={{ duration: 0.6 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-secondary leading-[1.15] mb-6"
           >
-            {hero.eyebrow}
-          </motion.div>
-          
-          {/* Ukuran dinamis clamp disesuaikan mulai dari 40px agar aman di HP terkecil */}
-          <h1 className="font-display font-black leading-[0.95] text-[clamp(40px,9vw,120px)] -ml-0.5 text-primary tracking-tight">
-            {nameWords.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.8, 
-                  ease: [0.16, 1, 0.3, 1],
-                  delay: 0.2 + (i * 0.1) 
-                }}
-                className="inline-block mr-[3vw] mb-1 sm:mb-2"
-              >
-                {word}
-              </motion.span>
-            ))}
-          </h1>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-col gap-3 sm:gap-4 mt-1 max-w-xl"
-          >
-            <h2 className="text-lg sm:text-2xl font-semibold text-secondary leading-snug">
-              {hero.tagline}
-            </h2>
-            <p className="text-sm sm:text-lg text-foreground/80 leading-relaxed">
-              {hero.subDescription}
-            </p>
-          </motion.div>
+            {content.hero.tagline}
+          </motion.h1>
 
-          {/* Tombol aksi: w-full otomatis penuh di HP, kembali normal di laptop */}
-          <motion.div
+          <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-4 sm:mt-6 w-full sm:w-auto"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-lg text-foreground/80 dark:text-gray-300 max-w-2xl leading-relaxed mb-10"
+          >
+            {content.hero.subDescription}
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-wrap gap-4"
           >
             <a 
               href="#work" 
-              onClick={scrollToWork}
-              className="bg-secondary text-white w-full sm:w-auto text-center px-8 py-3.5 rounded-md font-semibold text-sm sm:text-base hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer"
+              className="bg-secondary hover:bg-secondary/90 text-white px-8 py-4 rounded-2xl font-semibold shadow-md transition-all duration-300 hover:-translate-y-0.5"
             >
               View Work
             </a>
+            
             <a 
               href="/CV.pdf"
               download="CV.pdf"
-              className="bg-transparent border border-foreground/20 text-foreground w-full sm:w-auto text-center px-8 py-3.5 rounded-md font-semibold text-sm sm:text-base hover:bg-foreground/5 hover:border-foreground/40 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              onClick={() => {
+                if (onDownload) onDownload();
+              }}
+              className="border border-primary/20 dark:border-white/20 hover:border-primary dark:hover:border-white text-primary dark:text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 hover:-translate-y-0.5 bg-transparent cursor-pointer"
             >
               Download CV
             </a>
           </motion.div>
         </div>
 
-        {/* Portrait Panel: Foto ditaruh di atas teks saat di mobile (order-1) agar impresi jurnalisme langsung terasa */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="lg:col-span-5 h-[40vh] sm:h-[50vh] lg:h-[70vh] w-full max-w-xs sm:max-w-md mx-auto lg:mx-0 relative order-1 lg:order-2"
-        >
-          <div className="absolute inset-0 bg-primary/5 rounded-[24px] sm:rounded-[32px] transform translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4 -z-10" />
-          <div className="w-full h-full rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-2xl border border-border bg-white">
-            <img
-              src="/foto-nahel.jpeg"
-              alt="Nahel Zaqi Alfian"
-              className="w-full h-full object-cover object-top"
+        {/* Kolom Kanan: Foto Profil dengan Efek 3D Card Hover + Glare */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-end w-full perspective-[1000px]">
+          <motion.div
+            style={{
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d",
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, type: 'spring' }}
+            className="w-full max-w-[400px] aspect-[4/5] rounded-[2.5rem] border border-primary/10 dark:border-white/10 shadow-2xl relative bg-slate-100 dark:bg-slate-900 overflow-hidden cursor-pointer group"
+          >
+            {/* Foto Profil Utama */}
+            <img 
+              src="/foto-profile.jpeg" 
+              alt={content.hero.name} 
+              style={{ transform: "translateZ(30px)" }}
+              className="w-full h-full object-cover object-center pointer-events-none transition-transform duration-300 group-hover:scale-105"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/foto-profile.jpeg";
+              }}
             />
-          </div>
-        </motion.div>
+
+            {/* Gradasi Bayangan Dasar */}
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent pointer-events-none" />
+
+            {/* Efek Kilatan Cahaya Dinamis */}
+            <motion.div
+              style={{
+                position: "absolute",
+                left: glareX,
+                top: glareY,
+                opacity: glareOpacity,
+                translateX: "-50%",
+                translateY: "-50%",
+                background: "radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%)",
+              }}
+              className="w-[300px] h-[300px] pointer-events-none z-30 mix-blend-overlay transition-opacity duration-300"
+            />
+          </motion.div>
+        </div>
+
       </div>
     </section>
   );
